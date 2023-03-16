@@ -1,5 +1,9 @@
+import Loader from './Loader';
+import Message from './Message';
+
 const CrudTable = ({data,setDataToEdit,deleteData}) => {
     console.log(`Algo ${data.id} ${data.name} ${data.latname} `)
+   
     return(
         <div>
             <h3>Tabla de Datos</h3>
@@ -14,11 +18,13 @@ const CrudTable = ({data,setDataToEdit,deleteData}) => {
                 </thead>
                 <tbody>
                     {
+                        
                         data.length === 0 ? (
                             <tr>
                                 <td colSpan='3'>No hay elementos para mostrar</td>
                             </tr>
                         ) : (
+                            
                                 data.map(item => (
                                     <tr key={item.id}>
                                         <td>{item.name}</td>
@@ -28,7 +34,9 @@ const CrudTable = ({data,setDataToEdit,deleteData}) => {
                                     </tr>
                                 )
                             )
-                        )
+                                
+                            )
+
                     }
                 </tbody>
             </table>

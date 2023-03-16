@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { HelpHttp } from "../helper/HelpHttp";
 import CrudForm from './CrudForm';
 import CrudTable from './CrudTable';
+import Loader from './Loader';
+import Message from './Message';
 
 const CrudAPI = () => {
     let api=HelpHttp();
@@ -13,6 +15,23 @@ const CrudAPI = () => {
 
     const [db,setDB] = useState([])
     const [dataToEdit,setDataToEdit] = useState(null)
+    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+
+        setLoading(true)
+        api.get(url).then(response=>{
+            //console.log(response)
+            if (!response.err){
+                setDB(response)
+            }
+            else{
+                setDB(null)
+            }
+            setLoading(false)
+        })
+    }, [])
 
     const createData=(data)=>{
         data.id=new Date()
@@ -31,6 +50,9 @@ const CrudAPI = () => {
         <div>
             <h1>CrudAPI</h1>
             <CrudForm create={createData} update={updateData} dataToEdit={dataToEdit} setDataToEdit={setDataToEdit}/>
+            {loading && <Loader/>}
+            {error && <Message/>}
+            {db && <CrudTable data={db} setDataToEdit={setDataToEdit} deleteData={deleteData}/>}
             <CrudTable data={db} setDataToEdit={setDataToEdit} deleteData={deleteData}/>
         </div>
     )
